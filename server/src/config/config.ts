@@ -5,7 +5,7 @@ dotenv.config();
 /* Server Configuration */
 const SERVER_PORT = process.env.PORT ? Number(process.env.PORT) : 3000;
 
-/* MongoDB Configurations */
+/* Postgresql Configurations */
 const POSTGRESQL_URL: string = process.env.POSTGRESQL_URL || ''
 
 export const config = {
