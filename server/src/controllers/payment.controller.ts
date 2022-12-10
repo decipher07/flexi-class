@@ -52,4 +52,26 @@ const paymentController = async ( req: Request, res: Response, next: NextFunctio
     }
 }
 
-export { paymentController };
+/** Get all the unprocessed transactions */
+const getAllPendingTransactions = async ( req: Request, res: Response, next: NextFunction ) => {
+    
+    /** Getting the Details from the User */
+    const userId = req.params.id;
+
+    try {
+        // Get all the pending transactions
+        const pendingTransactions = await prisma.payments.findMany({
+            where: {
+                userId,
+                status: false
+            }
+        })
+
+        return res.status(200).json({"success": true, "data": pendingTransactions, "message": null});
+    } catch ( err: any ) {
+        Logging.error(err.message);
+        return res.status(500).json({"success": false, "data": null, "message": "Something went wrong"});
+    }
+}
+
+export { paymentController, getAllPendingTransactions };
