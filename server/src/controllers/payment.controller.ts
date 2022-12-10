@@ -64,6 +64,9 @@ const getAllPendingTransactions = async ( req: Request, res: Response, next: Nex
             where: {
                 userId,
                 status: false
+            },
+            include: {
+                batchTiming: true
             }
         })
 
