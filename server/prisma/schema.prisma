@@ -1,0 +1,43 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider   = "prisma-client-js"
+  engineType = "binary"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id         String     @id @default(uuid())
+  name       String
+  age        Int
+  phone      String
+  registered Boolean
+  Payments   Payments[]
+}
+
+model BatchTimings {
+  id         Int        @id @default(autoincrement())
+  start_time String
+  end_time   String
+  Payments   Payments[]
+}
+
+model Payments {
+  id             String       @id @default(uuid())
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  month          Int
+  status         Boolean      @default(false)
+  amount         Int
+  userId         String
+  user           User         @relation(fields: [userId], references: [id])
+  batchTimingsId Int
+  batchTiming    BatchTimings @relation(fields: [batchTimingsId], references: [id])
+
+  @@unique([userId, month])
+}
