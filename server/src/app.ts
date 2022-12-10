@@ -1,6 +1,8 @@
 import express, { Response, Request, NextFunction, Express } from "express";
 import Logging from "./logger/logging";
 import { config } from './config/config';
+import UserRoutes from './routes/user.router'
+import PaymentRoutes from './routes/payments.router'
 
 const app: Express = express();
 
@@ -34,6 +36,12 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 });
 
 app.get('/ping', (req: Request, res: Response, next: NextFunction) => res.status(200).json({"message": "Server Working Successfully!"}));
+
+/** User Routes */
+app.use('/user', UserRoutes);
+
+/** Payment Routes */
+app.use('/payment',PaymentRoutes);
 
 /** Error handling */
 app.use((req: Request, res: Response, next: NextFunction) => {
