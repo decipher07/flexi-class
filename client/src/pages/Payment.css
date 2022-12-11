@@ -1,0 +1,50 @@
+.main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    min-height: 100vh;
+    background-color: #ffffff;
+    background-image: url("../assets/header.svg");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: top right;
+    background-size: cover;
+    color: wheat;
+}
+
+.paymentFrame {
+    /* border: 1px solid wheat ; */
+    width: 60vw;
+}
+
+.paymentListing {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 2%;
+}
+
+.headers {
+    /* border: 2px solid wheat; */
+    margin-bottom: 10%;
+}
+
+.footerFrame {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 5%;
+}
+
+.monthDivision {
+    width: 20%;
+}
+
+.tableHeaders {
+    display: flex;
+    justify-content: start;
+}
+
+.monthColumn {
+    margin-left: 9%;
+    margin-right: 16%;
+}
