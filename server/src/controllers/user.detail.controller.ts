@@ -70,7 +70,7 @@ const createUserController = async ( req: Request, res: Response, next: NextFunc
             return res.status(201).json({"success": true, "data": { "userId" : userIdForTheDocument }, "message": null});    
         }
 
-        return res.status(403).json({"success": false, "data": null, "message": "You've already booked a similar transaction. Please complete the transaction"});
+        return res.status(403).json({"success": false, "data": { "userId" : userIdForTheDocument }, "message": "You've already booked a similar transaction. Please complete the transaction"});
 
     } catch ( err: any ) {
         Logging.error(err.message);
