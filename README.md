@@ -20,7 +20,7 @@ same month they need to be in same batch
 
 ## Entity Diagram
 
-The problem statement, involved emphasing on the fact of a user and payment model with respect to the batch chosen by the User. The backend architecture involved making separate collections for User, Batch and Payments for the simple reason to scale according to the situation. Furthermore, Backend architecture involves a clean architecture along with using typescript and proper commenting for understanding the code.. The same can availed from the postman documentation [here](https://documenter.getpostman.com/view/10696212/2s8Ysuxt8Y) 
+The problem statement, involved emphasing on the fact of a user and payment model with respect to the batch chosen by the User. The backend architecture involved making separate collections for User, Batch and Payments for the simple reason to scale according to the situation. Furthermore, Backend architecture involves a clean architecture along with using typescript and proper commenting for understanding the code.. The same can availed from the postman documentation [here](https://documenter.getpostman.com/view/10696212/2s8YzTThY2) 
 
 ![Untitled](docs/FlexMoney%20Task%20c88f18790d134f10823e0ecc4715bb54/Untitled.png)
 
