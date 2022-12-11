@@ -57,7 +57,8 @@ const Login = () => {
             navigate('/payment');
         } catch ( err ) {
             localStorage.setItem("userId", err.response.data.data.userId);
-            navigate('/payment');
+            if(err.response.status != 418)
+                navigate('/payment');
             alert (err.response.data.message);
         }
     }

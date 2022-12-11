@@ -70,7 +70,10 @@ const createUserController = async ( req: Request, res: Response, next: NextFunc
             return res.status(201).json({"success": true, "data": { "userId" : userIdForTheDocument }, "message": null});    
         }
 
-        return res.status(403).json({"success": false, "data": { "userId" : userIdForTheDocument }, "message": "You've already booked a similar transaction. Please complete the transaction"});
+        if ( !existingPaymentForTheSameMonth.status )
+            return res.status(403).json({"success": false, "data": { "userId" : userIdForTheDocument }, "message": "You've already booked a similar transaction for that month. You're not allowed to change batch for a particular month. You can do this for the next month. Please complete the transaction"});
+
+        return res.status(418).json({"success": false, "data": { "userId" : userIdForTheDocument }, "message": "You've already booked a similar transaction for that month. You're not allowed to change batch for a particular month. You can do this for the next month. Thank You for your cooperation"});
 
     } catch ( err: any ) {
         Logging.error(err.message);

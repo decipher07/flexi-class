@@ -24,8 +24,9 @@ function Payment() {
     const makePayment = async (e, monthId) => {
         try {
             const body = { "month": monthId, "userId": localStorage.getItem("userId") };
-            alert(`You're making a payment for the month of ${monthIdAndMonth.get(monthId)} or Rs 500/-`)
+            alert(`You're making a payment for the month of ${monthIdAndMonth.get(monthId)} of Rs 500/-`)
             await axios.post(`${backendUrl}/payment/makepayment`, body);
+            alert("Payment Successful, Please refresh the page!");
         } catch (err) {
             console.log(err);
             alert(err.response.data.message);
