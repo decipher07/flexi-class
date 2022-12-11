@@ -17,7 +17,7 @@ const Login = () => {
     const navigate = useNavigate();
 
     // Validating Phone Number
-    function validatePhoneNumber ( phoneNumber ){
+    function validatePhoneNumber(phoneNumber) {
         return (/^\+?([0-9]{2})\)?[-. ]?([0-9]{4})[-. ]?([0-9]{4})$/).test(phoneNumber);
     }
 
@@ -31,22 +31,22 @@ const Login = () => {
 
         if (!phoneNumber)
             return alert("Please enter your phone number");
-        
+
         if (!age)
             return alert("Please enter your age");
 
         if (!batchId)
             return alert("Please choose a batch");
-        
+
         if (!monthId)
             return alert("Please choose a month");
-        
+
         /** Validate Age */
-        if ( age < 18 || age > 65 )
+        if (age < 18 || age > 65)
             return alert("You must be above 18 Years and Below 65 Years of age");
 
         /** Validate Phone Number */
-        if ( !validatePhoneNumber(phoneNumber) )
+        if (!validatePhoneNumber(phoneNumber))
             return alert("Please enter a valid phone Number");
 
         try {
@@ -55,11 +55,11 @@ const Login = () => {
             const response = await axios.post(requestUrl, body);
             localStorage.setItem("userId", response.data.data.userId);
             navigate('/payment');
-        } catch ( err ) {
+        } catch (err) {
             localStorage.setItem("userId", err.response.data.data.userId);
-            if(err.response.status != 418)
+            if (err.response.status != 418)
                 navigate('/payment');
-            alert (err.response.data.message);
+            alert(err.response.data.message);
         }
     }
 
@@ -84,7 +84,7 @@ const Login = () => {
                         <div className="buttonDisp">
                             {/* Batch Timings */}
                             <div className="dropdown">
-                                <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> { batchId == 0 ? "Batch Timings" : batchIdAndTimings.get(batchId) } </button>
+                                <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> {batchId == 0 ? "Batch Timings" : batchIdAndTimings.get(batchId)} </button>
                                 <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                     <a className="dropdown-item" value={5} onClick={(e) => setBatchId(5)} >6.00 to 7.00</a>
                                     <a className="dropdown-item active" value={6} onClick={(e) => setBatchId(6)} >7.00 to 8.00</a>
@@ -94,7 +94,7 @@ const Login = () => {
                             </div>
                             {/* Month Selection */}
                             <div className="dropdown">
-                                <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> { monthId == 0 ? "Month" : monthIdAndMonth.get(monthId) } </button>
+                                <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> {monthId == 0 ? "Month" : monthIdAndMonth.get(monthId)} </button>
                                 <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                     <a className="dropdown-item" value={1} onClick={(e) => setMonthId(1)} >January</a>
                                     <a className="dropdown-item" value={2} onClick={(e) => setMonthId(2)} >February</a>
@@ -115,7 +115,9 @@ const Login = () => {
                         <div className='buttonDisp formSchema'>
                             <input type="submit" className="btn btn-dark submit" value="Login" />
                         </div>
-
+                        <a href="http://localhost:5173/payment">
+                            <input type="button" className="btn btn-dark submit" value="Pending Payments" />
+                        </a>
                     </form>
                 </div>
             </div>
