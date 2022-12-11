@@ -3,6 +3,7 @@ import { useState } from 'react'
 import './Login.css'
 import axios from 'axios';
 import { Routes, Route, useNavigate } from 'react-router-dom';
+import { monthIdAndMonth, batchIdAndTimings, backendUrl } from '../utils/constants'
 
 const Login = () => {
 
@@ -12,68 +13,82 @@ const Login = () => {
     const [batchId, setBatchId] = useState(0);
     const [monthId, setMonthId] = useState(0);
 
+    // Navigation 
     const navigate = useNavigate();
 
-    /** Setting BatchId and Hashmaps */
-    const batchIdAndTimings = new Map();
-    batchIdAndTimings.set(1, "6.00 to 7.00");
-    batchIdAndTimings.set(2, "7.00 to 8.00");
-    batchIdAndTimings.set(3, "8.00 to 9.00");
-    batchIdAndTimings.set(4, "17.00 to 18.00");
+    // Validating Phone Number
+    function validatePhoneNumber ( phoneNumber ){
+        return (/^\+?([0-9]{2})\)?[-. ]?([0-9]{4})[-. ]?([0-9]{4})$/).test(phoneNumber);
+    }
 
-    /** Setting monthId and Hashmaps */
-    const monthIdAndMonth = new Map();
-    monthIdAndMonth.set(1, "January");
-    monthIdAndMonth.set(2, "February");
-    monthIdAndMonth.set(3, "March");
-    monthIdAndMonth.set(4, "April");
-    monthIdAndMonth.set(5, "May");
-    monthIdAndMonth.set(6, "June");
-    monthIdAndMonth.set(7, "July");
-    monthIdAndMonth.set(8, "August");
-    monthIdAndMonth.set(9, "September");
-    monthIdAndMonth.set(10, "October");
-    monthIdAndMonth.set(11, "November");
-    monthIdAndMonth.set(12, "December");
-
+    // Handling Submission
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        console.log({ name, phoneNumber, age, batchId, monthId });
+        /** Validate that every field exists */
+        if (!name)
+            return alert("Please enter your name");
 
-        // const body = { email, password };
+        if (!phoneNumber)
+            return alert("Please enter your phone number");
+        
+        if (!age)
+            return alert("Please enter your age");
 
-        // try {
-        //   const response = await axios.post('http://43.204.215.187:3001/sign/login', body);
-        //   localStorage.setItem("token", response.data.data.token);
-        //   navigate('/follower');
-        // } catch ( err ){
-        //   alert(err.response.data.message);
-        // }
+        if (!batchId)
+            return alert("Please choose a batch");
+        
+        if (!monthId)
+            return alert("Please choose a month");
+        
+        /** Validate Age */
+        if ( age < 18 || age > 65 )
+            return alert("You must be above 18 Years and Below 65 Years of age");
+
+        /** Validate Phone Number */
+        if ( !validatePhoneNumber(phoneNumber) )
+            return alert("Please enter a valid phone Number");
+
+        try {
+            const body = { name, age: Number(age), phone: phoneNumber, batchId, month: monthId };
+            const requestUrl = backendUrl + '/user/createuser';
+            const response = await axios.post(requestUrl, body);
+            localStorage.setItem("userId", response.data.data.userId);
+            navigate('/payment');
+        } catch ( err ) {
+            localStorage.setItem("userId", err.response.data.data.userId);
+            navigate('/payment');
+            alert (err.response.data.message);
+        }
     }
 
     return (
         <div className='main'>
             <div className="loginFrame">
-
+                {/* Heading */}
                 <h1 className="text-center heading">Fill in your details</h1>
                 <hr className="underline" />
+                {/* Sub heading */}
                 <h6 className="text-center sub-heading">FlexiLogin for Flex Money</h6>
-
+                {/* From Wrapper */}
                 <div className="formClass">
+                    {/* Login Form */}
                     <form action="/login" method="get" onSubmit={handleSubmit}>
+                        {/* Name */}
                         <input type="text" id="name" name="name" className='formSchema' placeholder="Name" value={name} onChange={(e) => setName(e.target.value)} /><br /><br />
-                        <input type="text" id="age" name="age" className='formSchema' placeholder="Age" value={age} onChange={(e) => setAge(e.target.value)} /><br /><br />
+                        {/* Age */}
+                        <input type="number" id="age" name="age" className='formSchema' placeholder="Age" value={age} onChange={(e) => setAge(e.target.value)} /><br /><br />
+                        {/* Phone Number */}
                         <input type="text" id="phone" name="phone" className='formSchema' placeholder="Phone Number" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} /><br /><br />
                         <div className="buttonDisp">
                             {/* Batch Timings */}
                             <div className="dropdown">
                                 <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> { batchId == 0 ? "Batch Timings" : batchIdAndTimings.get(batchId) } </button>
                                 <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    <a className="dropdown-item" value={1} onClick={(e) => setBatchId(1)} >6.00 to 7.00</a>
-                                    <a className="dropdown-item active" value={2} onClick={(e) => setBatchId(2)} >7.00 to 8.00</a>
-                                    <a className="dropdown-item" value={3} onClick={(e) => setBatchId(3)} >8.00 to 9.00</a>
-                                    <a className="dropdown-item" value={4} onClick={(e) => setBatchId(4)} >17.00 to 18.00</a>
+                                    <a className="dropdown-item" value={5} onClick={(e) => setBatchId(5)} >6.00 to 7.00</a>
+                                    <a className="dropdown-item active" value={6} onClick={(e) => setBatchId(6)} >7.00 to 8.00</a>
+                                    <a className="dropdown-item" value={7} onClick={(e) => setBatchId(7)} >8.00 to 9.00</a>
+                                    <a className="dropdown-item" value={8} onClick={(e) => setBatchId(8)} >17.00 to 18.00</a>
                                 </div>
                             </div>
                             {/* Month Selection */}
@@ -95,6 +110,7 @@ const Login = () => {
                                 </div>
                             </div>
                         </div>
+                        {/* Submit Button */}
                         <div className='buttonDisp formSchema'>
                             <input type="submit" className="btn btn-dark submit" value="Login" />
                         </div>
